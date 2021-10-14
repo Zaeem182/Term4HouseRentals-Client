@@ -541,6 +541,7 @@ public class HouseGUI implements ActionListener, ItemListener {
         frameC.setLocationRelativeTo(null);
         frameC.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameC.setVisible(false);
+        frameC.setResizable(false);
 
        ///////////////////////////////////////////////////////////////
         //Login GUI
@@ -603,6 +604,7 @@ public class HouseGUI implements ActionListener, ItemListener {
         frameLog.setLocationRelativeTo(null);
         frameLog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameLog.setVisible(true);
+        frameLog.setResizable(false);
         
         ///////////////////////////////////////////////////////////////
         //Employee GUI
@@ -698,6 +700,7 @@ public class HouseGUI implements ActionListener, ItemListener {
         frameH.setLocationRelativeTo(null);
         frameH.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameH.setVisible(false);
+        frameH.setResizable(false);
         
 
          ////////////////////////////////////////////////////////////////
@@ -798,6 +801,7 @@ public class HouseGUI implements ActionListener, ItemListener {
         frameR.setLocationRelativeTo(null);
         frameR.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameR.setVisible(false);
+        frameR.setResizable(false);
         
         
         ///////////////////////////////////////////////////////////////
@@ -887,6 +891,7 @@ public class HouseGUI implements ActionListener, ItemListener {
         frameE.setLocationRelativeTo(null);
         frameE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameE.setVisible(false);
+        frameE.setResizable(false);
         
         //Read on startup
         refreshCustomer();
