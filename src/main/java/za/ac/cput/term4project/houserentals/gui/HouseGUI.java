@@ -16,8 +16,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import za.ac.cput.term4project.houserentals.domain.Customer;
@@ -33,21 +31,25 @@ import za.ac.cput.term4project.houserentals.domain.Rental;
 public class HouseGUI implements ActionListener, ItemListener {
 
 
+    
+    
     //client socket
     private Socket server;
     ObjectOutputStream out;
     ObjectInputStream in;
+    
+    ///////////////////////////////////////////////////////////////
+    //Customer
+    
+    JFrame frameC = new JFrame();
 
-    //JPanels
     private JPanel panelTop;
     private JPanel panelCenter;
     private JPanel panelBottom;
     private JPanel panelLeft;
 
-    //JLabel Heading
     private JLabel lblHeading;
 
-    //JButtons
     private JButton btnAdd;
     private JButton btnAdminAgent;
     private JButton btnHouses;
@@ -58,23 +60,20 @@ public class HouseGUI implements ActionListener, ItemListener {
     private JButton btnCustomerCanRent;
     private JButton btnCustomerCannotRent;
 
-    //JTable
     private DefaultTableModel tblModel;
     private JTable tblDisplay;
 
-    //Fonts
     private Font Hft;
     private Font ft;
     private Font ft1;
 
-    //JFrame
-    JFrame frameC = new JFrame();
+    
 
     ///////////////////////////////////////////////////////////////
     //Login
+    
     JFrame frameLog = new JFrame();
     
-   
     private JPanel panelLoginTop;
     private JPanel panelLoginCenter;
     private JPanel panelLoginBottom;
@@ -176,8 +175,15 @@ public class HouseGUI implements ActionListener, ItemListener {
     private JTable tblEmployeeDisplay;
     
     String filter;
-    
+
+    //Arraylist for displaying database
+    ArrayList<Customer> custRefresh = new ArrayList<>();
+    ArrayList<Employers> employeeRefresh = new ArrayList<>();
+    ArrayList<House> houseRefresh = new ArrayList<>();
+    ArrayList<Rental> rentalRefresh = new ArrayList<>();
+
     public HouseGUI() {
+        
         //Establish connection
         try {
             //Create Socket
@@ -191,28 +197,17 @@ public class HouseGUI implements ActionListener, ItemListener {
             System.out.println("IOException: " + ioe.getMessage());
         }
 
-        //Fonts
         Hft = new Font("Verdana", Font.BOLD, 25);
         ft = new Font("Verdana", Font.PLAIN, 15);
         ft1 = new Font("Verdana", Font.PLAIN, 20);
 
-        //Top panel
         panelTop = new JPanel();
-
-        //Center panel
         panelCenter = new JPanel();
-
-        //Bottom panel
         panelBottom = new JPanel();
-
-        //Left panel
         panelLeft = new JPanel();
 
-        //Heading
         lblHeading = new JLabel("ZA RENTALS");
 
-
-        //Buttons
         btnAdd = new JButton("Add Customer");
         btnAdminAgent = new JButton("EMPLOYEES");
         btnHouses = new JButton("HOUSES");
@@ -221,11 +216,9 @@ public class HouseGUI implements ActionListener, ItemListener {
         btnExit = new JButton("EXIT");
         btnCustomerSignOut = new JButton("Sign Out");
         btnCustomerUpdate = new JButton("Update Customer");
-                btnCustomerCanRent = new JButton("Can Rent");
+        btnCustomerCanRent = new JButton("Can Rent");
         btnCustomerCannotRent = new JButton("Cannot Rent");
 
-
-        //Add action listeners
         btnAdd.addActionListener(this);
         btnAdminAgent.addActionListener(this);
         btnHouses.addActionListener(this);
@@ -237,9 +230,9 @@ public class HouseGUI implements ActionListener, ItemListener {
         btnCustomerCanRent.addActionListener(this);
         btnCustomerCannotRent.addActionListener(this);
         
-        //Table
         tblModel = new DefaultTableModel();
         tblDisplay = new JTable(tblModel);
+        
         ///////////////////////////////////////////////////////////////
         //Login
         panelLoginTop = new JPanel();
@@ -260,7 +253,8 @@ public class HouseGUI implements ActionListener, ItemListener {
         
         btnLogin.addActionListener(this);
         btnAdminLogin.addActionListener(this);
-        btnLoginExit.addActionListener(this);       
+        btnLoginExit.addActionListener(this);   
+        
         /////////////////////////////////////////////////////
         //house panels
          panelHouseTop = new JPanel();
@@ -448,8 +442,7 @@ public class HouseGUI implements ActionListener, ItemListener {
         
         //Table Sorter 
         tblDisplay.setAutoCreateRowSorter(true);
-
-                
+ 
         //Apply font change
         lblHeading.setFont(Hft);
         lblHeading.setForeground(new Color(0, 0, 0));
@@ -533,8 +526,6 @@ public class HouseGUI implements ActionListener, ItemListener {
         panelBottom.setBackground(new Color(233, 160, 124));
         panelLeft.setBackground(new Color(233, 160, 124));
         
-        
-        
         //Add Table
         tblDisplay.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         tblModel.addColumn("ID");
@@ -588,6 +579,7 @@ public class HouseGUI implements ActionListener, ItemListener {
         
         panelLoginTop.add(lblLoginHeading);
         
+        //
         btnLogin.setPreferredSize(new Dimension(150, 50));
         btnAdminLogin.setPreferredSize(new Dimension(150, 50));
         btnLoginExit.setPreferredSize(new Dimension(150, 50));
@@ -605,6 +597,7 @@ public class HouseGUI implements ActionListener, ItemListener {
 
         btnLoginExit.setBackground(new Color(102, 178, 255));
         btnLoginExit.setForeground(new Color(0, 0, 0));
+        //
         
         frameLog.setSize(505, 450);
         frameLog.setLocationRelativeTo(null);
@@ -664,7 +657,7 @@ public class HouseGUI implements ActionListener, ItemListener {
         btnEmployeeActive.setPreferredSize(new Dimension(115, 40));
         btnEmployeeNotActive.setPreferredSize(new Dimension(115, 40));
         
-        
+        //
         btnEmployeeAdd.setBackground(new Color(102, 178, 255));
         btnEmployeeAdd.setForeground(new Color(0, 0, 0));
 
@@ -699,6 +692,7 @@ public class HouseGUI implements ActionListener, ItemListener {
         panelEmployeeCenter.setBackground(new Color(233, 160, 124));
         panelEmployeeBottom.setBackground(new Color(233, 160, 124));
         panelEmployeeLeft.setBackground(new Color(233, 160, 124));
+        //
         
         frameH.setSize(850, 500);
         frameH.setLocationRelativeTo(null);
@@ -853,7 +847,7 @@ public class HouseGUI implements ActionListener, ItemListener {
 
         panelRentalTop.add(lblRentalHeading);
         
-                //
+        //
         btnRentalAdd.setPreferredSize(new Dimension(150, 50));
         btnRAdminAgent.setPreferredSize(new Dimension(120, 40));
         btnRHouses.setPreferredSize(new Dimension(120, 40));
@@ -918,7 +912,7 @@ public class HouseGUI implements ActionListener, ItemListener {
             LoginAdminConfirm();
             
         }
-        //EXIT BUTTON
+        //Exit Button
         if (e.getActionCommand().equals("EXIT")) {
             System.exit(0);
             
@@ -939,7 +933,7 @@ public class HouseGUI implements ActionListener, ItemListener {
         if(e.getActionCommand().equals("Sign Out")){
             setSignOut();
         }
-        //EMPLOYEES Button
+        //Employees Button
         if (e.getActionCommand().equals("EMPLOYEES")) 
         {
             setEmployeePanels();
@@ -983,28 +977,31 @@ public class HouseGUI implements ActionListener, ItemListener {
             refreshEmployee();
         }
         
-        //ADD Customer Button
+        //Add Customer Button
         if (e.getActionCommand().equals("Add Customer")) {
             clientAddCustomerDetails();
             refreshCustomer();
         }
-        //ADD Employee Button
+        //Add Employee Button
         if (e.getActionCommand().equals("Add Employee")) {
             clientAddEmployeeDetails();
             refreshEmployee();
         }
-        
+        //Employee Active Button
         if (e.getActionCommand().equals("Active")) {
-
+            EmployeeIsActive();
         }
+        //Employee Not Active Button
         if (e.getActionCommand().equals("Not Active")) {
-
+            EmployeeIsNotActive();
         }
+        //Customer Can Rent
         if (e.getActionCommand().equals("Can Rent")) {
-
+            CustomerCanRent();
         }
+        //Customer Cannot Rent
         if (e.getActionCommand().equals("Cannot Rent")) {
-
+            CustomerCannotRent();
         }
         //Add House Button
         if (e.getActionCommand().equals("Add House")){
@@ -1023,7 +1020,6 @@ public class HouseGUI implements ActionListener, ItemListener {
           if(e.getActionCommand().equals("Not Available"))
         {
             houseNotAvailable();
-            
         }
         
         //ADD Rental Button
@@ -1071,7 +1067,7 @@ public class HouseGUI implements ActionListener, ItemListener {
             System.out.println("Exception: " + ex.getMessage());
         }
     }
-    
+    ///////////////////////Login///////////////////////////
     public void LoginConfirm() {
 
         try {
@@ -1201,6 +1197,7 @@ public class HouseGUI implements ActionListener, ItemListener {
 
     }
 
+    ///////////////////////Add///////////////////////////
     public void clientAddEmployeeDetails(){
         JTextField id = new JTextField();
         JTextField fName = new JTextField();
@@ -1444,16 +1441,8 @@ public class HouseGUI implements ActionListener, ItemListener {
         }
     }
     
-
-
-    //Arraylist for displaying database
-      ArrayList<Customer> custRefresh = new ArrayList<>();
-      ArrayList<Employers> employeeRefresh = new ArrayList<>();
-      ArrayList<House> houseRefresh = new ArrayList<>();
-      ArrayList<Rental> rentalRefresh = new ArrayList<>();
-      
-    public void refreshCustomer()
-    {
+    ///////////////////////Refresh///////////////////////////
+    public void refreshCustomer(){
         try
         {
         //client side
@@ -1641,7 +1630,6 @@ public class HouseGUI implements ActionListener, ItemListener {
                 
                 double commission = rentalRefresh.get(i).getCommission();
                 sum += commission;
-                Object[] rentalData = {sum};
                 String s;
                 s = String.valueOf(sum);
                 txtSumOfCommission.setText(s);
@@ -1653,8 +1641,6 @@ public class HouseGUI implements ActionListener, ItemListener {
             System.out.println("ClassNotFoundException: " + ex.getMessage());
         }
     }
-        
-    
 
     public void houseAvailable(){
        try {
@@ -1710,6 +1696,130 @@ public class HouseGUI implements ActionListener, ItemListener {
 
                 Object[] houseData = {id, noOfRooms, location, price, isRented};
                 tblHouseModel.addRow(houseData);
+            }
+        } catch (IOException ex) {
+            System.out.println("IOException: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            System.out.println("ClassNotFoundException: " + ex.getMessage());
+        } 
+    }
+    
+    public void EmployeeIsActive(){
+       try {
+            //client side
+            out.writeObject("Active");
+            out.flush();
+
+            //recieve from server
+            employeeRefresh = (ArrayList) in.readObject();
+
+            tblEmployeeDisplay.setModel(tblEmployeeModel);
+            tblEmployeeModel = (DefaultTableModel) tblEmployeeDisplay.getModel();
+            tblEmployeeModel.setRowCount(0);
+
+            //add values from arraylist to gui JTable
+            for (int i = 0; i < employeeRefresh.size(); i++) {
+                int id = employeeRefresh.get(i).getEmployerId();
+                String fname = employeeRefresh.get(i).getfName();
+                String lName = employeeRefresh.get(i).getlName();
+                boolean isAdmin = employeeRefresh.get(i).isAdmin();
+                boolean isActive = employeeRefresh.get(i).isActive();
+
+                Object[] employeeData = {id, fname, lName, isAdmin, isActive};
+                tblEmployeeModel.addRow(employeeData);
+            }
+        } catch (IOException ex) {
+            System.out.println("IOException: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            System.out.println("ClassNotFoundException: " + ex.getMessage());
+        } 
+    }
+    
+    public void EmployeeIsNotActive(){
+         try {
+            //client side
+            out.writeObject("Not Active");
+            out.flush();
+
+            //recieve from server
+            employeeRefresh = (ArrayList) in.readObject();
+
+            tblEmployeeDisplay.setModel(tblEmployeeModel);
+            tblEmployeeModel = (DefaultTableModel) tblEmployeeDisplay.getModel();
+            tblEmployeeModel.setRowCount(0);
+
+            //add values from arraylist to gui JTable
+            for (int i = 0; i < employeeRefresh.size(); i++) {
+                int id = employeeRefresh.get(i).getEmployerId();
+                String fname = employeeRefresh.get(i).getfName();
+                String lName = employeeRefresh.get(i).getlName();
+                boolean isAdmin = employeeRefresh.get(i).isAdmin();
+                boolean isActive = employeeRefresh.get(i).isActive();
+
+                Object[] employeeData = {id, fname, lName, isAdmin, isActive};
+                tblEmployeeModel.addRow(employeeData);
+            }
+        } catch (IOException ex) {
+            System.out.println("IOException: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            System.out.println("ClassNotFoundException: " + ex.getMessage());
+        } 
+    }
+    
+    public void CustomerCanRent(){
+         try {
+            //client side
+            out.writeObject("Can Rent");
+            out.flush();
+
+            //recieve from server
+            custRefresh = (ArrayList) in.readObject();
+
+            tblDisplay.setModel(tblModel);
+            tblModel = (DefaultTableModel) tblDisplay.getModel();
+            tblModel.setRowCount(0);
+
+            //add values from arraylist to gui JTable
+            for (int i = 0; i < custRefresh.size(); i++) {
+                int id = custRefresh.get(i).getCustomerId();
+                String fname = custRefresh.get(i).getfName();
+                String lName = custRefresh.get(i).getlName();
+                String cell = custRefresh.get(i).getCell();
+                boolean canRent = custRefresh.get(i).isCanRent();
+
+                Object[] employeeData = {id, fname, lName, cell, canRent};
+                tblModel.addRow(employeeData);
+            }
+        } catch (IOException ex) {
+            System.out.println("IOException: " + ex.getMessage());
+        } catch (ClassNotFoundException ex) {
+            System.out.println("ClassNotFoundException: " + ex.getMessage());
+        } 
+    }
+    
+    public void CustomerCannotRent(){
+         try {
+            //client side
+            out.writeObject("Cannot Rent");
+            out.flush();
+
+            //recieve from server
+            custRefresh = (ArrayList) in.readObject();
+
+            tblDisplay.setModel(tblModel);
+            tblModel = (DefaultTableModel) tblDisplay.getModel();
+            tblModel.setRowCount(0);
+
+            //add values from arraylist to gui JTable
+            for (int i = 0; i < custRefresh.size(); i++) {
+                int id = custRefresh.get(i).getCustomerId();
+                String fname = custRefresh.get(i).getfName();
+                String lName = custRefresh.get(i).getlName();
+                String cell = custRefresh.get(i).getCell();
+                boolean canRent = custRefresh.get(i).isCanRent();
+
+                Object[] employeeData = {id, fname, lName, cell, canRent};
+                tblModel.addRow(employeeData);
             }
         } catch (IOException ex) {
             System.out.println("IOException: " + ex.getMessage());
@@ -1904,6 +2014,7 @@ public class HouseGUI implements ActionListener, ItemListener {
 
     }
     
+    ///////////////////////Update///////////////////////////
     public void updateCustomer(){
         JTextField id = new JTextField();
         JCheckBox canRent = new JCheckBox();
